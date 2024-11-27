@@ -62,6 +62,38 @@ function fundTransfer(accountNumber, accounts) {
   saveAccounts(accounts);
 }
 
+function withdrawFund(accountNumber, accounts){
+  const amount = parseFloat(prompt("Enter amount: "));
+
+  if(isNaN(amount) || amount <= 0){
+    console.log("Error: invalid amount!");
+    return;
+  }
+
+  if(accounts[accountNumber].balance < amount) {
+    console.log("Error: Insufficient funds!");
+    return;
+  }
+
+  accounts[accountNumber].balance -= amount;
+  console.log(`Successfully withdrawn ${amount} from your account`);
+  saveAccounts(accounts);
+}
+
+function depositFund(accountNumber, accounts){
+  const amount = parseFloat(prompt("Enter amount: "));
+
+  if(isNaN(amount) || amount <= 0){
+    console.log("Error: invalid amount!");
+    return;
+  }
+
+  accounts[accountNumber].balance += amount;
+  console.log(`Successfully deposited ${amount} from your account`);
+  saveAccounts(accounts);
+}
+
+
 // Fungsi untuk login dan mengecek PIN
 function login(accounts) {
   const accountNumber = prompt('Enter your account number: ');
@@ -89,7 +121,9 @@ function main() {
     console.log('\n=== ATM Menu ===');
     console.log('1. Balance Inquiry');
     console.log('2. Fund Transfer');
-    console.log('3. Exit');
+    console.log('3. Withdraw');
+    console.log('4. Deposit');
+    console.log('5. Exit');
     console.log("S. Force-save the database with current data");
     console.log("R. Reopen current data from file");
 
@@ -100,6 +134,10 @@ function main() {
     } else if (choice === '2') {
       fundTransfer(accountNumber, accounts);
     } else if (choice === '3') {
+      withdrawFund(accountNumber, accounts);
+    } else if (choice === '4') {
+      depositFund(accountNumber, accounts);
+    } else if (choice === '5') {
       console.log('Exiting...');
       break;
     } else if (choice === 'S') {
