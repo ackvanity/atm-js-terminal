@@ -1,0 +1,4 @@
+123456,John Doe,995.5,1234
+654321,Alice Smith,504.5,5678
+987654,Bob Brown,1500,4321
+,undefined,NaN,undefined
