@@ -8,6 +8,7 @@ function loadAccounts() {
     const data = fs.readFileSync('data.txt', 'utf8');
     const lines = data.split('\n');
     lines.forEach(line => {
+      if(line.length === 0)return;
       const [accountNumber, name, balance, pin] = line.split(',');
       accounts[accountNumber] = {
         name,
@@ -77,7 +78,7 @@ function login(accounts) {
 
 // Program utama
 function main() {
-  const accounts = loadAccounts();
+  let accounts = loadAccounts(); // we might need to make new accounts, or reload the database!
 
   let accountNumber = null;
   while (!accountNumber) {
@@ -89,6 +90,8 @@ function main() {
     console.log('1. Balance Inquiry');
     console.log('2. Fund Transfer');
     console.log('3. Exit');
+    console.log("S. Force-save the database with current data");
+    console.log("R. Reopen current data from file");
 
     const choice = prompt('Enter your choice: ');
 
@@ -99,6 +102,10 @@ function main() {
     } else if (choice === '3') {
       console.log('Exiting...');
       break;
+    } else if (choice === 'S') {
+      saveAccounts(accounts);
+    } else if (choice === 'R') {
+      accounts = loadAccounts();
     } else {
       console.log('Invalid choice, please try again.');
     }
