@@ -217,4 +217,3 @@ function main() {
 
 // Jalankan program utama
 main();
-createacc();
