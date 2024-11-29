@@ -185,7 +185,6 @@ function login(accounts) {
 function main() {
   let accounts = loadAccounts(); // we might need to make new accounts, or reload the database!
 
-  console.log("Create Account? [yes/no]");
     const r = prompt("Create Account? [yes/no]")
     if (r == "yes") {
       createacc(accounts);
