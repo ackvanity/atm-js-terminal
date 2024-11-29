@@ -177,6 +177,11 @@ function login(accounts) {
 function main() {
   let accounts = loadAccounts(); // we might need to make new accounts, or reload the database!
 
+  console.log("Create Account? [yes/no]");
+    const r = prompt("Create Account? [yes/no]")
+    if (r == "yes") {
+      createacc();
+    } 
   let accountNumber = null;
   while (!accountNumber) {
     accountNumber = login(accounts);
@@ -188,7 +193,9 @@ function main() {
     console.log('2. Fund Transfer');
     console.log('3. Withdraw');
     console.log('4. Deposit');
-    console.log('5. Exit');
+    console.log('5. Create Account');
+    console.log('6. Change Password');
+    console.log('7. Exit');
     console.log("S. Force-save the database with current data");
     console.log("R. Reopen current data from file");
 
@@ -201,10 +208,14 @@ function main() {
     } else if (choice === '3') {
       withdrawFund(accountNumber, accounts);
     } else if (choice === '4') {
-      depositFund(accountNumber, accounts);
+      depositFund(accountNumber, accounts); 
     } else if (choice === '5') {
+      createAccount(accountNumber, account);
+    } else if (choice === '6') {
+      changePassword(accountNumber, account);
+    }  else if (choice === '7') {
       console.log('Exiting...');
-      break;
+     break;
     } else if (choice === 'S') {
       saveAccounts(accounts);
     } else if (choice === 'R') {
