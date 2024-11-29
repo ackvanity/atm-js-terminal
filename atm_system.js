@@ -2,8 +2,14 @@
 const prompt = require('prompt-sync')();
 const fs = require('fs');
 
+function emailcheck(email) {
+  const emailchar = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailchar.test(email);
+}
+
+
 //Fungsi untuk membuat akun
-function createacc() {
+function createacc(accounts) {
     
   let name = prompt("Input your name:");
   while (!name) {
@@ -11,17 +17,19 @@ function createacc() {
     name = prompt("Input your name:");
   }
 
+  let account = prompt("Input your account number:");
+
   let email = prompt("Input your email address:");
-  while (!email || !emailvalid(email)) {
+  while (!email || !emailcheck(email)) {
     console.log("Kindly provide a valid email address.");
     email = prompt("Input your email address:");
   }
 
   let password = "";
-  while (password.length < 5) {
-    password = prompt("Create a strong password of at least 5 characters:");
-    if (password.length < 5) {
-      console.log("Password must consists of at least 5 characters.");
+  while (password.length < 4) {
+    password = prompt("Create a strong password of at least 4 characters:");
+    if (password.length < 4) {
+      console.log("Password must consists of at least 4 characters.");
       return;
     }
   }
@@ -35,16 +43,15 @@ function createacc() {
   }
 
   console.log("Account successfully activated. Welcome, " + name + "!");
+  accounts[account] ={
+    name, balance: 0, pin: password
+  }
 }
 
-function emailcheck(email) {
-  const emailchar = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailchar.test(email);
-}
 
-function passwchange(account) {
+function changePassword(accountNumber,accounts) {
   let password = prompt("Enter your previous password:");
-  if (password !== account.password) {
+  if (password !== accounts[accountNumber].pin) {
     console.log("Incorrect password. Please enter the password correctly.");
     return; 
   }
@@ -61,7 +68,8 @@ function passwchange(account) {
     passwconfirm = prompt("Confirm your new passwrd:");
   }
 
-  account.pin = passwnew; 
+  accounts[accountNumber].pin = passwnew
+  saveAccounts(accounts); 
   console.log("PIN change successful!");
 }
 
@@ -180,7 +188,7 @@ function main() {
   console.log("Create Account? [yes/no]");
     const r = prompt("Create Account? [yes/no]")
     if (r == "yes") {
-      createacc();
+      createacc(accounts);
     } 
   let accountNumber = null;
   while (!accountNumber) {
@@ -210,9 +218,9 @@ function main() {
     } else if (choice === '4') {
       depositFund(accountNumber, accounts); 
     } else if (choice === '5') {
-      createAccount(accountNumber, account);
+      createacc(accounts);
     } else if (choice === '6') {
-      changePassword(accountNumber, account);
+      changePassword(accountNumber, accounts);
     }  else if (choice === '7') {
       console.log('Exiting...');
      break;
